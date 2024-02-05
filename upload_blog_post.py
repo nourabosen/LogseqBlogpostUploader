@@ -70,7 +70,7 @@ def perform_formatting_checks(content):
     content = re.sub(r"\s+---", "\n---", content)
 
     # Remove hyphens in new lines after '---'
-    content = re.sub(r"\n- ", "\n", content)
+    content = re.sub(r"\n- ", "\n <br/> <br/>", content)
 
     return content.strip()  # Remove leading/trailing whitespace
 
@@ -138,8 +138,12 @@ if image_match:
     # Extract the image file name
     image_filename = os.path.basename(image_path_relative)
 
-    # Construct the absolute image path in the assets folder
-    absolute_image_path = os.path.join(assets_folder, image_filename)
+    # Construct the absolute image path in Dropbox assets folder
+    absolute_image_path = os.path.join(dropbox_assets_folder, image_filename)
+
+    # Create the media folder in the local path if it doesn't exist
+    if not os.path.exists(temp_media_folder_path):
+        os.makedirs(temp_media_folder_path)
 
     # Check if the image file exists before copying
     if os.path.exists(absolute_image_path):
